@@ -1,5 +1,5 @@
 {
-  "name": "why-react",
+  "name": "my-jira",
   "private": true,
   "version": "0.0.0",
   "scripts": {
@@ -7,7 +7,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "eslint": "eslint --max-warnings=0",
-    "pre-check": "tsc && npx lint-staged"
+    "pre-check": "tsc && npx lint-staged",
+    "server": "json-server __json_server_mock__/db.json --watch"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
@@ -16,6 +17,8 @@
   },
   "dependencies": {
     "@arco-design/web-react": "^2.36.0",
+    "json-serve": "^0.1.0",
+    "qs": "^6.11.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-is": "^18.2.0",
@@ -26,6 +29,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",
     "@commitlint/config-conventional": "^17.2.0",
+    "@types/qs": "^6.9.7",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/sortablejs": "^1.13.0",
