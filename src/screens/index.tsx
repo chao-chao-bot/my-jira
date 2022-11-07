@@ -5,9 +5,13 @@ import { SearchPanel } from './search-panel'
 import { cleanObject } from '../utils'
 import { useDebounce, useMount } from '../hooks'
 
+interface paramType {
+  name: string
+  personId: string
+}
 const apiUrl = import.meta.env.VITE_BASE_URL
 export const ProjectListScreen = () => {
-  const [param, setParam] = React.useState({
+  const [param, setParam] = React.useState<paramType>({
     name: '',
     personId: ''
   })
