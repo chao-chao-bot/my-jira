@@ -18,7 +18,6 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
-    '@typescript-eslint/no-non-null-assertion': 'off',
-    'no-unused-vars': ['error', { vars: 'local', args: 'after-used', ignoreRestSiblings: false }]
+    '@typescript-eslint/no-non-null-assertion': 'off'
   }
 }

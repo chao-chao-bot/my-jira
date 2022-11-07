@@ -2,13 +2,14 @@ import * as React from 'react'
 import List from './list'
 import qs from 'qs'
 import { SearchPanel } from './search-panel'
-import { cleanObject } from '../utils'
-import { useDebounce, useMount } from '../hooks'
+import { cleanObject } from '../../utils'
+import { useDebounce, useMount } from '../../hooks'
 
 interface paramType {
   name: string
   personId: string
 }
+
 const apiUrl = import.meta.env.VITE_BASE_URL
 export const ProjectListScreen = () => {
   const [param, setParam] = React.useState<paramType>({
