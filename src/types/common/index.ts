@@ -4,6 +4,7 @@ export type Users = {
   email: string
   title: string
   organization: string
+  token: string
 }
 
 export type Project = {
@@ -13,3 +14,4 @@ export type Project = {
   pin: boolean
   organization: string
 }
+export * from './auth'

@@ -1,4 +1,4 @@
-import { Project, Users } from 'types'
+import { Project, Users } from '@/types'
 
 interface ListProps {
   list: Project[]

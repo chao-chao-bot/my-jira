@@ -1,4 +1,4 @@
-import { Users } from 'types'
+import { Users } from '@/types'
 
 interface SearchPanelProps {
   users: Users[]
