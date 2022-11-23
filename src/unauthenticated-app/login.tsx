@@ -1,5 +1,7 @@
 import { userAuth } from '@/hooks/useAuth'
-import * as React from 'react'
+import { Button, Form, Input } from 'antd'
+import { AuthFormType } from '@/types'
+import { LongButton } from '.'
 
 /* interface p1 {
   name: string
@@ -16,27 +18,26 @@ test(a) */
 
 // Ts 是鸭子类型(duck typing) 面向接口编程 而不是面向接口编程
 export const LoginScreen = () => {
-  const { login, user } = userAuth()
-  console.log(user)
-  const hadleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const username = (event.currentTarget.elements[0] as HTMLInputElement).value
-    const password = (event.currentTarget.elements[1] as HTMLInputElement).value
-    login({ username, password })
+  const { login } = userAuth()
+
+  const hadleSubmit = async (values: AuthFormType) => {
+    login(values)
   }
 
   return (
-    <form onSubmit={hadleSubmit}>
-      <div>
-        <label htmlFor='username'>用户名</label>
-        <input type='text' id='username' />
-      </div>
-      <div>
-        <label htmlFor='password'>密码</label>
-        <input type='password' id='password' />
-      </div>
-      <button type='submit'>登录</button>
-    </form>
+    <Form onFinish={hadleSubmit}>
+      <Form.Item name={'username'} rules={[{ required: true, message: '请输入用户名' }]}>
+        <Input placeholder='用户名' type='text' id='username' />
+      </Form.Item>
+      <Form.Item name={'password'} rules={[{ required: true, message: '请输入密码' }]}>
+        <Input placeholder='密码' type='password' id='password' />
+      </Form.Item>
+      <Form.Item>
+        <LongButton type='primary' htmlType='submit'>
+          登录
+        </LongButton>
+      </Form.Item>
+    </Form>
   )
 }
 export default LoginScreen

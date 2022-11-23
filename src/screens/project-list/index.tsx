@@ -1,32 +1,29 @@
 import * as React from 'react'
 import List from './list'
-import qs from 'qs'
 import { SearchPanel } from './search-panel'
 import { cleanObject } from '@/utils'
 import { useDebounce, useMount } from '@/hooks'
+import { fetchProjectList, fetchUserList } from '@/api/projects/user-projects'
+import { Users } from '@/types'
 
-const apiUrl = import.meta.env.VITE_BASE_URL
-export const ProjectListScreen = () => {
+export const ProjectListScreen: React.FC = () => {
   const [param, setParam] = React.useState({
     name: '',
     personId: ''
   })
-  const [users, setUsers] = React.useState([])
-  const [list, setList] = React.useState([])
+  const [users, setUsers] = React.useState<Users[]>([])
+  const [list, setList] = React.useState<any>([])
   const deParams = useDebounce(param, 1200)
+
   React.useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObject(deParams))}`).then(async value => {
-      if (value.ok) {
-        setList(await value.json())
-      }
+    fetchProjectList(cleanObject(deParams)).then(value => {
+      setList(value || [])
     })
   }, [deParams])
 
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async value => {
-      if (value.ok) {
-        setUsers(await value.json())
-      }
+    fetchUserList('users').then(value => {
+      setUsers(value)
     })
   })
   return (

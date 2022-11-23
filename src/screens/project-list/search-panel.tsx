@@ -10,6 +10,7 @@ interface SearchPanelProps {
 }
 export const SearchPanel = (props: SearchPanelProps) => {
   const { param, setParam, users } = props
+
   return (
     <div>
       <input

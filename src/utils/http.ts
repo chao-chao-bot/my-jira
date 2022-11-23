@@ -1,16 +1,21 @@
 import qs from 'qs'
+import * as auth from '@/auth-provider'
 
 const apiUrl = import.meta.env.VITE_BASE_URL
 
-interface RequestConfig extends RequestInit {
-  data: string
-  token: object
+export interface RequestConfig extends RequestInit {
+  data?: object
+  token?: string
 }
-export const http = async (endpoint: string, { data, token, ...customConfig }: RequestConfig) => {
+export const http = async (
+  endpoint: string,
+  { data, token, headers, ...customConfig }: RequestConfig = {}
+) => {
   const config = {
     method: 'GET',
     headers: {
-      Authorization: token ? `Bearer ${token}` : '',
+      ...headers,
+      Authorization: token ? token : 'no-token',
       'Content-Type': data ? 'application/json' : ''
     },
     ...customConfig
@@ -23,7 +28,8 @@ export const http = async (endpoint: string, { data, token, ...customConfig }: R
   }
   return window.fetch(`${apiUrl}/${endpoint}`, config).then(async response => {
     if (response.status === 401) {
-      // TODO  退出登录
+      //未登录或者token 失效 返回401
+      await auth.loginout()
       window.location.reload()
       return Promise.reject({ message: '请重新登录' })
     }
@@ -35,7 +41,4 @@ export const http = async (endpoint: string, { data, token, ...customConfig }: R
     }
   })
 }
-
-export const useHttp = () => {
-  //
-}
+export default http
