@@ -5,6 +5,7 @@ import { cleanObject } from '@/utils'
 import { useDebounce, useMount } from '@/hooks'
 import { fetchProjectList, fetchUserList } from '@/api/projects/user-projects'
 import { Users } from '@/types'
+import styled from '@emotion/styled'
 
 export const ProjectListScreen: React.FC = () => {
   const [param, setParam] = React.useState({
@@ -27,10 +28,15 @@ export const ProjectListScreen: React.FC = () => {
     })
   })
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel param={param} setParam={setParam} users={users}></SearchPanel>
       <List list={list} users={users}></List>
-    </div>
+    </Container>
   )
 }
 export default ProjectListScreen
+
+const Container = styled.div`
+  padding: 0 3.2rem;
+`

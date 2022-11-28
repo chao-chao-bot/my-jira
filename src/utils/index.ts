@@ -1,14 +1,14 @@
-export const isFalsy = (value: unknown) => (value === 0 ? false : !value)
+export const isVoid = (value: unknown) => value === undefined || value === null || value === ''
 
-export const cleanObject = (object: object) => {
+interface CleanObjectParams {
+  [key: string]: unknown
+}
+
+export const cleanObject = (object: CleanObjectParams) => {
   const result = { ...object }
   Object.keys(result).forEach(key => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
     const value = result[key]
-    if (isFalsy(value)) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
+    if (isVoid(value)) {
       delete result[key]
     }
   })

@@ -1,3 +1,4 @@
+export * from './auth'
 export type Users = {
   id: string
   name: string
@@ -12,4 +13,3 @@ export type Project = {
   pin: boolean
   organization: string
 }
-export * from './auth'
