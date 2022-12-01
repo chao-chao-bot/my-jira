@@ -7,7 +7,7 @@ export type Users = {
 }
 
 export type Project = {
-  id: string
+  key: string
   name: string
   personId: string
   pin: boolean

@@ -1,7 +1,8 @@
 import { userAuth } from '@/hooks/useAuth'
-import { Button, Form, Input } from 'antd'
+import { Form, Input } from 'antd'
 import { AuthFormType } from '@/types'
 import { LongButton } from '.'
+import { useAsync } from '@/hooks/useAsync'
 
 /* interface p1 {
   name: string
@@ -19,9 +20,9 @@ test(a) */
 // Ts 是鸭子类型(duck typing) 面向接口编程 而不是面向接口编程
 export const LoginScreen = () => {
   const { login } = userAuth()
-
+  const { run, isLoading } = useAsync()
   const hadleSubmit = async (values: AuthFormType) => {
-    login(values)
+    run(login(values))
   }
 
   return (
@@ -32,8 +33,9 @@ export const LoginScreen = () => {
       <Form.Item name={'password'} rules={[{ required: true, message: '请输入密码' }]}>
         <Input placeholder='密码' type='password' id='password' />
       </Form.Item>
+
       <Form.Item>
-        <LongButton type='primary' htmlType='submit'>
+        <LongButton loading={isLoading} type='primary' htmlType='submit'>
           登录
         </LongButton>
       </Form.Item>

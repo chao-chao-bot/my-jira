@@ -2,13 +2,16 @@ import styled from '@emotion/styled'
 
 import * as React from 'react'
 import PageHeader from './layout/header'
+import ProjectListScreen from './page/project-list'
 
 export const AuthenticatedApp: React.FC = () => {
   return (
     <div>
       <PageHeader />
 
-      <Main>{/* <ProjectListScreen /> */}</Main>
+      <Main>
+        <ProjectListScreen />
+      </Main>
     </div>
   )
 }

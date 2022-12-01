@@ -1,4 +1,4 @@
-import { Button, Card, Divider } from 'antd'
+import { Button, Card, Divider, Typography } from 'antd'
 import * as React from 'react'
 import LoginScreen from './login'
 import RegisterScreen from './register'
@@ -8,13 +8,15 @@ import left from '@/assets/left.svg'
 import right from '@/assets/right.svg'
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = React.useState(false)
+  const [error, setError] = React.useState<Error | null>(null)
   return (
     <Containter>
       <Background />
       <Header />
       <ShadowCard>
         <Title>{isRegister ? '请注册' : '请登录'}</Title>
-        {isRegister ? <RegisterScreen /> : <LoginScreen />}
+        {error ? <Typography.Text type='danger'>{error.message}</Typography.Text> : null}
+        {isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen />}
         <Divider />
         <a onClick={() => setIsRegister(!isRegister)}>
           {isRegister ? '已有账号，请登录' : '没有账号？注册新账号'}

@@ -1,37 +1,25 @@
 import * as React from 'react'
 import List from './list'
 import { SearchPanel } from './search-panel'
-import { cleanObject } from '@/utils'
-import { useDebounce, useMount } from '@/hooks'
-import { fetchProjectList, fetchUserList } from '@/api/projects/user-projects'
-import { Users } from '@/types'
+import { useDebounce } from '@/hooks'
 import styled from '@emotion/styled'
+import { useProject } from '@/utils/project'
+import { useUser } from '@/utils/users'
 
 export const ProjectListScreen: React.FC = () => {
   const [param, setParam] = React.useState({
     name: '',
     personId: ''
   })
-  const [users, setUsers] = React.useState<Users[]>([])
-  const [list, setList] = React.useState<any>([])
   const deParams = useDebounce(param, 1200)
+  const { data: users } = useUser()
+  const { data: list, isLoading } = useProject(deParams)
 
-  React.useEffect(() => {
-    fetchProjectList(cleanObject(deParams)).then(value => {
-      setList(value || [])
-    })
-  }, [deParams])
-
-  useMount(() => {
-    fetchUserList('users').then(value => {
-      setUsers(value)
-    })
-  })
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel param={param} setParam={setParam} users={users}></SearchPanel>
-      <List list={list} users={users}></List>
+      <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
+      <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>
   )
 }

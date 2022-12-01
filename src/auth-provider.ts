@@ -13,44 +13,20 @@ export const handleUserResponse = ({ user }: { user?: Users }) => {
     localStorageUserKey,
     JSON.stringify({ id: user?.id, username: user?.name })
   )
-  return user
+  return user || null
 }
 
 export const login = (data: AuthFormType) => {
-  return accountLogin(data).then(
-    (value: any) => {
-      handleUserResponse(value || {})
-      if (!value) {
-        throw new Error('内部错误，请联系管理员')
-      } else {
-        return value.user
-      }
-    },
-    (err: any) => {
-      return Promise.reject(err)
-    }
-  )
+  return accountLogin(data).then((value: any) => {
+    return handleUserResponse(value || {})
+  })
 }
 
 export const register = (data: AuthFormType) => {
   //发送注册请求
-  return accountRegister(data).then(
-    (value: { user: any }) => {
-      handleUserResponse(value || {})
-      try {
-        if (!value) {
-          throw new Error('内部错误，请联系管理员')
-        } else {
-          return value.user
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    (err: any) => {
-      return Promise.reject(err)
-    }
-  )
+  return accountRegister(data).then((value: { user: any }) => {
+    return handleUserResponse(value || {})
+  })
 }
 
 export const loginout = async () => {
