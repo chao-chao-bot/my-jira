@@ -6,9 +6,11 @@ import styled from '@emotion/styled'
 import logo from '@/assets/logo.svg'
 import left from '@/assets/left.svg'
 import right from '@/assets/right.svg'
+import { useDocumentTitle } from '@/hooks'
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = React.useState(false)
   const [error, setError] = React.useState<Error | null>(null)
+  useDocumentTitle('请登录')
   return (
     <Containter>
       <Background />
