@@ -15,10 +15,9 @@ export const RegisterScreen = (props: RegisterScreenProps) => {
   const hadleSubmit = (values: AuthFormType) => {
     const { cpassword, ...resetValues } = values
     if (cpassword !== resetValues.password) {
-      onError(new Error('请确认两次密码相同'))
+      onError(new Error('请确认两次密码是否相同'))
       return
     }
-
     register(resetValues)
   }
 

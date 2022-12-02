@@ -25,15 +25,10 @@ export const FullPageLoading = () => (
   </FullPage>
 )
 
-interface FullPageFallbackProps {
-  error: Error | null
-}
-
-export const FullPageFallback = (props: FullPageFallbackProps) => {
-  const { error } = props
+export const FullPageErrorFallback = () => {
   return (
     <FullPage>
-      <Typography.Text>{error?.message}</Typography.Text>
+      <Typography.Text type='warning'>{'啊哦，页面出错了，请稍后再试.....'}</Typography.Text>
     </FullPage>
   )
 }

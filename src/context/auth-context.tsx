@@ -2,8 +2,11 @@ import { AuthFormType, Users } from '@/types'
 import * as React from 'react'
 import * as auth from '@/auth-provider'
 import { ReactNode } from 'react'
-import http from '@/utils/http'
 import { useMount } from '@/hooks'
+import { useAsync } from '@/hooks/useAsync'
+import { FullPageErrorFallback, FullPageLoading } from '@/components/lib'
+import { accountUserInfo } from '@/api/user/user-manage'
+
 interface ContextProps {
   user: Users | null
   register: (form: AuthFormType) => void
@@ -14,8 +17,9 @@ interface ContextProps {
 const bootstrapUser = async () => {
   let user = null
   const token = auth.getToken()
+  const info = auth.getUserInfo()
   if (token) {
-    const data = await http('userinfo', { token, data: auth.getUserInfo() })
+    const data = await accountUserInfo({ id: info.id })
     user = { ...data.user, token }
   }
   return user
@@ -26,15 +30,30 @@ export const AuthContext = React.createContext<ContextProps | undefined>(undefin
 AuthContext.displayName = 'AuthContext'
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = React.useState<Users | null>(null)
-  const login = (form: AuthFormType) => auth.login(form).then(setUser)
+  const {
+    data: user,
+    isIdel,
+    isLoading,
+    isError,
+    setData: setUser,
+    run,
+    error
+  } = useAsync<Users | null>()
 
+  const login = (form: AuthFormType) => auth.login(form).then(setUser)
   const register = (form: AuthFormType) => auth.register(form).then(setUser)
   const loginout = () => auth.loginout().then(() => setUser(null))
 
   useMount(() => {
-    bootstrapUser().then(setUser)
+    run(bootstrapUser())
   })
+  if (isIdel || isLoading) {
+    return <FullPageLoading />
+  }
+  if (isError) {
+    return <FullPageErrorFallback />
+  }
+
   return (
     <AuthContext.Provider value={{ user, login, register, loginout }}>
       {children}

@@ -24,7 +24,7 @@ type AxiosRequestCustomConfig = AxiosRequestConfig & {
 const apiUrl = import.meta.env.VITE_BASE_URL
 export const instance = Axios.create({
   baseURL: apiUrl,
-  timeout: 60 * 1000
+  timeout: 6 * 1000
 })
 
 interface AxiosResponse {
@@ -36,6 +36,7 @@ const handleSuccess = (response: { status: number; data: AxiosResponse }) => {
   if (response?.data?.status === 1 || response?.data?.message === 'success') {
     return response.data.data
   }
+
   return Promise.reject(response)
 }
 
@@ -78,35 +79,20 @@ const handleException = (exception: {
   if (Axios.isCancel(exception)) {
     return Promise.reject()
   }
-
-  let errData
-  try {
-    errData = JSON.parse(JSON.stringify(exception))
-  } catch (error) {
-    errData = '请求错误'
-  }
-
-  if (window.parent.postMessage) {
-    const msg = {
-      name: 'bi-fetch-catch',
-      errData,
-      urlParams: getUrlParams()
-    }
-    window.parent.postMessage(msg, '*')
-  }
   let { status: httpStatus, data } = exception || {}
-
   if (exception.isAxiosError) {
+    console.error(exception)
     httpStatus = exception?.response?.status
-
     data = exception?.response?.data
-
     if (exception?.message?.includes('timeout')) {
       message.warning('请求超时，请重试！')
       return Promise.resolve(null)
+    } else {
+      message.warning('系统出错，请稍后再试！')
+      return Promise.resolve(null)
     }
-    console.error(exception)
   }
+
   if (httpStatus === 403 && data?.status === 40003) {
     message.warning('账号没有访问资源的权限...')
     setTimeout(() => {
@@ -139,7 +125,7 @@ const get = <T>(url: string, params?: Record<string, any>, config?: any): Promis
       }
     })
     .then(handleSuccess)
-    .catch(err => Promise.reject(err))
+    .catch(config?.ignoreError ? handleIgnoreMessageException : handleException)
 }
 
 const post = <T>(
