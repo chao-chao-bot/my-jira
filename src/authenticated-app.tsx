@@ -3,7 +3,8 @@ import styled from '@emotion/styled'
 import * as React from 'react'
 import { useDocumentTitle } from './hooks'
 import PageHeader from './layout/header'
-import ProjectListScreen from './page/project-list'
+import { RouteSet } from '@/router'
+import { ProjectCreateModal } from './page/project/project-create-modal'
 
 export const AuthenticatedApp: React.FC = () => {
   useDocumentTitle('项目列表', false)
@@ -11,14 +12,15 @@ export const AuthenticatedApp: React.FC = () => {
     <div>
       <PageHeader />
       <Main>
-        <ProjectListScreen />
+        <RouteSet></RouteSet>
+        <ProjectCreateModal />
       </Main>
     </div>
   )
 }
 
 const Main = styled.main`
-  height: calc(100vh - 6rem);
+  height: calc(100vh - 6.4rem);
   background: pink;
   display: flex;
   overflow: hidden;

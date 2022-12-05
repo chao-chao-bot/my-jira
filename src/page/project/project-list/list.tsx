@@ -1,7 +1,8 @@
 import { Project, Users } from '@/types'
 import { Table } from 'antd'
 import { ColumnsType, TableProps } from 'antd/lib/table'
-
+import { Link } from 'react-router-dom'
+// react-router-dom 和 react-router 的关系：后者管理路由状态，进行计算路由树，交给前者进行消费
 interface ListProps extends TableProps<Project> {
   users: Users[]
 }
@@ -16,7 +17,9 @@ export const List = (props: ListProps) => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: text => <a>{text}</a>
+      render(value, project) {
+        return <Link to={project.id + ''}>{project.project_name}</Link>
+      }
     },
     {
       title: 'personId',

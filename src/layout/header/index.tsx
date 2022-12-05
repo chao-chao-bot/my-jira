@@ -1,10 +1,9 @@
 import * as React from 'react'
 
 import { userAuth } from '@/hooks/useAuth'
-import { Button, Dropdown, Tabs } from 'antd'
+import { Button, Dropdown } from 'antd'
 import logo from '@/assets/software-logo.svg'
 import styled from 'styled-components'
-import './index.css'
 import { UserInfoItemSettingList } from './types'
 import { initBoardList, initTaskList, TaskTapItem } from './header-task/type'
 import HeaderTask from './header-task'
@@ -12,9 +11,12 @@ import { inintProjectList } from './header-project/type'
 import { initTeamDropList } from './header-team/type'
 import { Row } from '../../components/lib'
 
+import { EEventCraeteTask } from './const'
+import { useEventBus } from '@/hooks'
+
 const HeaderWrapper = styled(Row)`
   position: relative;
-  height: 6rem;
+  height: 6.4rem;
   position: relative;
   padding: 3.2rem;
   &:after {
@@ -30,6 +32,11 @@ const HeaderWrapper = styled(Row)`
       rgba(9, 30, 66, 0) 4px
     );
     content: '';
+  }
+  .ant-dropdown-menu-item-group-title {
+    color: red !important;
+    font-size: 11px;
+    font-weight: 700;
   }
 `
 const HeaderLeft = styled(Row)`
@@ -60,6 +67,12 @@ export const PageHeader: React.FC<PageHeaderProps> = () => {
     }
   }, [])
 
+  const { trigger: openCreateTaskModal } = useEventBus(EEventCraeteTask.CreateTask)
+
+  const craeteTask = () => {
+    openCreateTaskModal()
+  }
+
   return (
     <HeaderWrapper between={true}>
       <HeaderLeft gap={true}>
@@ -79,7 +92,9 @@ export const PageHeader: React.FC<PageHeaderProps> = () => {
         <Dropdown trigger={['click']} menu={{ items: initTeamDropList }}>
           <a>团队</a>
         </Dropdown>
-        <Button type='primary'>创建</Button>
+        <Button type='primary' onClick={craeteTask}>
+          创建
+        </Button>
       </HeaderLeft>
 
       <HeaderRight gap={true}>

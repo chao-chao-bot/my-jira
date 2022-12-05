@@ -1,10 +1,10 @@
-import { TakState } from '@/types'
+import { TakStatus } from '@/types'
 import * as React from 'react'
 import styled from 'styled-components'
 import { LoginOutlined } from '@ant-design/icons'
 
 interface CustomPopoverItemProps {
-  title: TakState
+  title: TakStatus
   taskName: string
   keyWord: string
   projectName: string
@@ -28,11 +28,6 @@ export const CustomPopoverItem: React.FC<CustomPopoverItemProps> = props => {
 
 const CustomPopoverItemWrapper = styled.div`
   width: 100%;
-  .title {
-    font-size: 11px;
-    font-weight: 700;
-    color: #5e6c84;
-  }
   .article {
     display: flex;
     align-items: center;

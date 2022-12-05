@@ -12,12 +12,13 @@ export const ProjectListScreen: React.FC = () => {
     personId: ''
   })
   const deParams = useDebounce(param, 1200)
+
   const { data: users } = useUser()
-  const { data: list, isLoading } = useProject(deParams)
+  const { data: list, isLoading } = useProject()
 
   return (
     <Container>
-      <h1>项目列表</h1>
+      <h1>项目列表页面</h1>
       <SearchPanel param={param} setParam={setParam} users={users || []}></SearchPanel>
       <List loading={isLoading} dataSource={list || []} users={users || []} />
     </Container>

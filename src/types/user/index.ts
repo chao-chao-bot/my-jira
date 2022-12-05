@@ -5,11 +5,3 @@ export type Users = {
   email: string
   token?: string
 }
-
-export type Project = {
-  key: string
-  name: string
-  personId: string
-  pin: boolean
-  organization: string
-}

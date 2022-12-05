@@ -18,6 +18,7 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
-    'no-unused-vars': ['off', { vars: 'local' }]
+    'no-unused-vars': ['off', { vars: 'local' }],
+    'react/display-name': 'off'
   }
 }
