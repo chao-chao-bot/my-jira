@@ -1,9 +1,14 @@
 import CustomPopover from '@/components/header/custom-popover'
+import { useEventBus } from '@/hooks'
+import { ProjectCreated } from '@/page/project/project-create-modal/const'
 import { Button } from 'antd'
 import * as React from 'react'
 
 /**最近项目 */
 export const HeaderProject: React.FC = () => {
+  const handleProjectCreated = () => {
+    console.log(' hi hi ')
+  }
   return (
     <CustomPopover
       content={<div>123</div>}
@@ -15,7 +20,7 @@ export const HeaderProject: React.FC = () => {
             </Button>
           </div>
           <div>
-            <Button block type='link'>
+            <Button onClick={handleProjectCreated} block type='link'>
               创建项目
             </Button>
           </div>

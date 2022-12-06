@@ -18,7 +18,7 @@ export const List = (props: ListProps) => {
       dataIndex: 'name',
       key: 'name',
       render(value, project) {
-        return <Link to={project.id + ''}>{project.project_name}</Link>
+        return <Link to={project.creator_id + ''}>{project.project_name}</Link>
       }
     },
     {

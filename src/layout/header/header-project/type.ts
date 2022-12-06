@@ -10,7 +10,6 @@ export enum ProjectDropItem {
 }
 
 /**项目下拉初始化 */
-
 export const inintProjectList: MenuProps['items'] = [
   {
     key: ProjectDropItem.RECENTPROJECT,

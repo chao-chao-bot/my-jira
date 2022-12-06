@@ -1,103 +1,58 @@
 import * as React from 'react'
-import { Button, Divider, Modal, Input, DatePicker } from 'antd'
-import { EEventCraeteTask } from '@/layout/header/const'
+import { Modal, Form, Input, Select } from 'antd'
+
+import { Project } from '@/types'
 import { useEventBus } from '@/hooks'
-import { Form, Select } from 'antd'
-import { Project, Task } from '@/types'
-import styled from 'styled-components'
+import { ProjectCreated } from './const'
 
-interface ProjectCreateModalProps {
-  [key: string]: any
-}
-
-const ModalWrapper = styled.div`
-  .ant-modal-title {
-    font-size: 24px;
-    font-weight: 400;
-  }
-  .ant-modal-body {
-    max-height: calc(100vh - 24rem);
-    overflow-y: scroll;
-  }
-`
-
-export const ProjectCreateModal: React.FC<ProjectCreateModalProps> = React.memo(props => {
-  const [form] = Form.useForm<Task>()
+export const ProjectCreateModal: React.FC = () => {
+  const [form] = Form.useForm<Project>()
   const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false)
-
   const showModal = () => {
-    //Todo:form表单进行赋值
     setIsModalOpen(true)
   }
-
-  const handleOk = () => {
-    setIsModalOpen(false)
-    /**提交表单 */
-  }
-
   const handleCancel = () => {
     setIsModalOpen(false)
   }
+  const handleOk = () => {
+    console.log(form.getFieldsValue())
+    //发送数据请求
+    setIsModalOpen(false)
+  }
 
-  useEventBus(EEventCraeteTask.CreateTask, showModal)
-
+  useEventBus(ProjectCreated.OPEN_CRATE_PROJECT_MODAL, showModal)
   return (
-    <ModalWrapper>
-      <Modal
-        okText='创建'
-        cancelText='取消'
-        width={'80rem'}
-        getContainer={false}
-        title='创建任务'
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
-        <Form layout='vertical' form={form}>
-          <Form.Item
-            style={{ width: '50%' }}
-            label='项目'
-            name='projectId'
-            rules={[{ required: true }]}
-          >
-            <Select>
-              <Select.Option value='demo'>Demo</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            style={{ width: '50%' }}
-            label='任务类型'
-            name='taskType'
-            rules={[{ required: true }]}
-          >
-            <Select>
-              <Select.Option value='demo'>Demo</Select.Option>
-            </Select>
-          </Form.Item>
-          <Divider />
-          <Form.Item style={{ width: '20%' }} label='状态' name='taskStatus'>
-            <Select>
-              <Select.Option value='demo'>状态</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item label='摘要' name='abstract' rules={[{ required: true }]}>
-            <Input></Input>
-          </Form.Item>
-
-          <Form.Item label='描述' name='describe'>
-            <Input.TextArea rows={4} />
-          </Form.Item>
-          <Form.Item label='截止日期' name='endData'>
-            <DatePicker placeholder='请选择日期' />
-          </Form.Item>
-          <Form.Item label='经办人' name='operator' rules={[{ required: true }]}>
-            <Select>
-              <Select.Option value='demo'>Demo</Select.Option>
-            </Select>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </ModalWrapper>
+    <Modal
+      title='创建项目'
+      okText='创建'
+      cancelText='取消'
+      getContainer={false}
+      width={'50rem'}
+      open={isModalOpen}
+      onCancel={handleCancel}
+      onOk={handleOk}
+    >
+      <Form layout='vertical' form={form}>
+        <Form.Item name='creator_id' label='项目名称' rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name='proejct_prefix' label='索引' rules={[{ required: true }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item name='member' label='邀请成员'>
+          <Select
+            showSearch
+            showArrow={false}
+            mode='multiple'
+            allowClear
+            style={{ width: '100%' }}
+          ></Select>
+        </Form.Item>
+        {/* hidden  */}
+        <Form.Item hidden name='creator_id' label='项目名称'>
+          <Input />
+        </Form.Item>
+      </Form>
+    </Modal>
   )
-})
+}

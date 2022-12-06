@@ -1,18 +1,19 @@
 import * as React from 'react'
 
 import { userAuth } from '@/hooks/useAuth'
-import { Button, Dropdown } from 'antd'
+import { Button, Dropdown, MenuProps } from 'antd'
 import logo from '@/assets/software-logo.svg'
 import styled from 'styled-components'
 import { UserInfoItemSettingList } from './types'
 import { initBoardList, initTaskList, TaskTapItem } from './header-task/type'
 import HeaderTask from './header-task'
-import { inintProjectList } from './header-project/type'
+import { inintProjectList, ProjectDropItem } from './header-project/type'
 import { initTeamDropList } from './header-team/type'
 import { Row } from '../../components/lib'
 
 import { EEventCraeteTask } from './const'
 import { useEventBus } from '@/hooks'
+import { ProjectCreated } from '@/page/project/project-create-modal/const'
 
 const HeaderWrapper = styled(Row)`
   position: relative;
@@ -54,9 +55,8 @@ interface PageHeaderProps {
 }
 export const PageHeader: React.FC<PageHeaderProps> = () => {
   const { loginout } = userAuth()
-
+  const { trigger: openCreateProjectModal } = useEventBus(ProjectCreated.OPEN_CRATE_PROJECT_MODAL)
   const [taskItems, setList] = React.useState(initTaskList)
-
   const handleTaskTabChange = React.useCallback((key: string) => {
     if (key === TaskTapItem.ASSIGNEDTOME) {
       setList(initTaskList)
@@ -73,6 +73,19 @@ export const PageHeader: React.FC<PageHeaderProps> = () => {
     openCreateTaskModal()
   }
 
+  const handleProjectDropDownListClick: MenuProps['onClick'] = ({ key }) => {
+    switch (key) {
+      case ProjectDropItem.VIEWALLITEMS:
+        alert('跳转到project页面')
+        break
+      case ProjectDropItem.CREATEPROJECT:
+        openCreateProjectModal()
+        break
+      default:
+        alert('跳转到project页面')
+    }
+  }
+
   return (
     <HeaderWrapper between={true}>
       <HeaderLeft gap={true}>
@@ -85,7 +98,10 @@ export const PageHeader: React.FC<PageHeaderProps> = () => {
           <a>您的任务</a>
         </Dropdown>
 
-        <Dropdown trigger={['click']} menu={{ items: inintProjectList }}>
+        <Dropdown
+          trigger={['click']}
+          menu={{ items: inintProjectList, onClick: handleProjectDropDownListClick }}
+        >
           <a>项目</a>
         </Dropdown>
 
