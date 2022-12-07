@@ -1,5 +1,6 @@
 import { ItemType } from 'antd/lib/menu/hooks/useItems'
-
+export type Handler<T extends any[] = any[]> = (...args: T) => void
+export type HandlerBoolean<T extends any[] = any[]> = (...args: T) => Promise<boolean>
 /**下拉Select选项 */
 export type SelectOption<T = any> = {
   value: string | number

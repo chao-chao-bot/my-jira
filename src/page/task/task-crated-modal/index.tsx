@@ -5,7 +5,7 @@ import { EEventCraeteTask } from '@/layout/header/const'
 import { Form, Select } from 'antd'
 import { Task } from '@/types'
 import styled from 'styled-components'
-import { useEventBus } from '@/hooks'
+import { useDialog } from '@/hooks/useDialog'
 
 interface TaskCreateModalProps {
   [key: string]: any
@@ -20,36 +20,22 @@ const ModalWrapper = styled.div`
 
 export const TaskCreateModal: React.FC<TaskCreateModalProps> = React.memo(props => {
   const [form] = Form.useForm<Task>()
-  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false)
-
-  const showModal = () => {
-    //Todo:form表单进行赋值
-    setIsModalOpen(true)
-  }
-
   const handleOk = () => {
-    setIsModalOpen(false)
+    dialogClose()
     /**提交表单 */
   }
 
-  const handleCancel = () => {
-    setIsModalOpen(false)
+  const handleOpen = () => {
+    form.resetFields()
+    console.log('openope')
   }
 
-  useEventBus(EEventCraeteTask.CreateTask, showModal)
-
+  const { dialogClose, dialogProps } = useDialog(EEventCraeteTask.CreateTask, {
+    onOpen: handleOpen
+  })
   return (
     <ModalWrapper>
-      <Modal
-        okText='创建'
-        cancelText='取消'
-        width={'80rem'}
-        getContainer={false}
-        title='创建任务'
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
+      <Modal {...dialogProps} getContainer={false} title='创建任务' onOk={handleOk}>
         <Form layout='vertical' form={form}>
           <Form.Item
             style={{ width: '50%' }}
