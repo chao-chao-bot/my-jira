@@ -13,7 +13,7 @@ export const AuthenticatedApp: React.FC = () => {
     <div>
       <PageHeader />
       <Main>
-        <RouteSet></RouteSet>
+        <RouteSet />
         <TaskCreateModal />
         <ProjectCreateModal />
       </Main>
@@ -23,7 +23,8 @@ export const AuthenticatedApp: React.FC = () => {
 
 const Main = styled.main`
   height: calc(100vh - 6.4rem);
-  background: skyblue;
+  background: #fff;
   display: flex;
   overflow: hidden;
+  padding: 1rem 3.2rem;
 `

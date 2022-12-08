@@ -14,3 +14,5 @@ export const cleanObject = (object: CleanObjectParams) => {
   })
   return result
 }
+
+export const resetRoute = () => (window.location.href = window.location.origin)

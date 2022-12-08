@@ -1,11 +1,11 @@
 import * as React from 'react'
 
 import { userAuth } from '@/hooks/useAuth'
-import { Button, Dropdown, MenuProps } from 'antd'
+import { Button, Dropdown, Menu, MenuProps, Tabs } from 'antd'
 import logo from '@/assets/software-logo.svg'
 import styled from 'styled-components'
 import { UserInfoItemSettingList } from './types'
-import { initBoardList, initTaskList, TaskTapItem } from './header-task/type'
+import { initBoardList, initTaskList, TaskDropItemKey, TaskTapItem } from './header-task/type'
 import HeaderTask from './header-task'
 import { inintProjectList, ProjectDropItem } from './header-project/type'
 import { initTeamDropList } from './header-team/type'
@@ -14,6 +14,8 @@ import { Row } from '../../components/lib'
 import { EEventCraeteTask } from './const'
 import { useEventBus } from '@/hooks'
 import { ProjectCreated } from '@/page/project/project-create-modal/const'
+import { useNavigate } from 'react-router'
+import { resetRoute } from '@/utils'
 
 const HeaderWrapper = styled(Row)`
   position: relative;
@@ -54,6 +56,7 @@ interface PageHeaderProps {
   children?: any
 }
 export const PageHeader: React.FC<PageHeaderProps> = () => {
+  const navigate = useNavigate()
   const { loginout } = userAuth()
   const { trigger: openCreateProjectModal } = useEventBus(ProjectCreated.OPEN_CRATE_PROJECT_MODAL)
   const [taskItems, setList] = React.useState(initTaskList)
@@ -86,13 +89,28 @@ export const PageHeader: React.FC<PageHeaderProps> = () => {
     }
   }
 
+  const handleTaskDropDownListClick: MenuProps['onClick'] = ({ key }) => {
+    console.log('key', key)
+    switch (key) {
+      case TaskDropItemKey.WORKPAGE:
+        navigate('/you-work')
+        break
+      case TaskDropItemKey.BOARD:
+        alert('看板页面')
+        break
+    }
+  }
+
   return (
     <HeaderWrapper between={true}>
       <HeaderLeft gap={true}>
-        <img src={logo} alt='logo' className='logo-sf' />
+        <Button type='link' onClick={resetRoute}>
+          <img src={logo} alt='logo' className='logo-sf' />
+        </Button>
+
         <Dropdown
           trigger={['click']}
-          menu={{ items: taskItems }}
+          menu={{ items: taskItems, onClick: handleTaskDropDownListClick }}
           dropdownRender={menu => <HeaderTask menu={menu} onChange={handleTaskTabChange} />}
         >
           <a>您的任务</a>
