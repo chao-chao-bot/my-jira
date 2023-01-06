@@ -15,12 +15,12 @@ interface ContextProps {
 }
 
 const bootstrapUser = async () => {
-  let user = null
+  let user: Users | null = null
   const token = auth.getToken()
   const info = auth.getUserInfo()
   if (token) {
     const data = await accountUserInfo({ id: info.id })
-    user = { ...data.user, token }
+    user = data.user.data
   }
   return user
 }

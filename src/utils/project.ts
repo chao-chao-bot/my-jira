@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { fetchProjectList } from '@/api/projects/user-projects'
+import { fetchProjectList } from '@/api/projects'
 import { useAsync } from '@/hooks/useAsync'
 import { Project } from '@/types'
 

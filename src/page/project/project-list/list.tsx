@@ -14,7 +14,7 @@ export const List = (props: ListProps) => {
 
   const columns: ColumnsType<Project> = [
     {
-      title: 'Name',
+      title: '名称',
       dataIndex: 'name',
       key: 'name',
       render(value, project) {
@@ -22,13 +22,13 @@ export const List = (props: ListProps) => {
       }
     },
     {
-      title: 'personId',
-      dataIndex: 'personId',
-      key: 'personId'
+      title: '关键字',
+      dataIndex: 'project_prefix',
+      key: 'project_prefix'
     },
     {
-      title: 'Organization',
-      dataIndex: 'organization',
+      title: '负责人',
+      dataIndex: 'username',
       key: 'organization'
     }
   ]

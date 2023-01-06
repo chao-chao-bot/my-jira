@@ -5,18 +5,32 @@ import { Project } from '@/types'
 
 import { ProjectCreated } from './const'
 import { useDialog } from '@/hooks/useDialog'
+import { userAuth } from '@/hooks/useAuth'
+import { fetchCreateProject } from '@/api/projects'
 
 export const ProjectCreateModal: React.FC = () => {
+  const { user } = userAuth()
   const [form] = Form.useForm<Project>()
 
-  const handleOk = () => {
-    console.log(form.getFieldsValue())
-    //发送数据请求
-    dialogClose()
+  const handleOk = async () => {
+    let formData
+    try {
+      formData = await form.validateFields()
+    } catch (error) {
+      return Promise.resolve(error)
+    }
+    if (formData) {
+      console.log(formData)
+      const res = await fetchCreateProject(formData)
+      console.log(res)
+      dialogClose()
+    }
   }
 
   const handleOpen = () => {
     form.resetFields()
+    form.setFieldValue('creator_id', user?.id)
+    form.setFieldValue('member', [68065])
   }
 
   const { dialogProps, dialogClose } = useDialog(ProjectCreated.OPEN_CRATE_PROJECT_MODAL, {
@@ -26,19 +40,20 @@ export const ProjectCreateModal: React.FC = () => {
     <Modal title='创建项目' onOk={handleOk} {...dialogProps}>
       <Form layout='vertical' form={form}>
         <Form.Item
-          name='creator_id'
+          name='project_name'
           label='项目名称'
           rules={[{ required: true, message: '项目名称是必填项' }]}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name='proejct_prefix'
+          name='project_prefix'
           label='索引'
           rules={[{ required: true, message: '索引是必填项' }]}
         >
           <Input />
         </Form.Item>
+
         <Form.Item name='member' label='邀请成员'>
           <Select
             showSearch
@@ -67,7 +82,9 @@ export const ProjectCreateModal: React.FC = () => {
             ]}
           ></Select>
         </Form.Item>
-        {/* hidden  */}
+        <Form.Item label='描述' name='introduction'>
+          <Input.TextArea style={{ resize: 'none' }} showCount rows={4} maxLength={150} />
+        </Form.Item>
         <Form.Item hidden name='creator_id'>
           <Input />
         </Form.Item>

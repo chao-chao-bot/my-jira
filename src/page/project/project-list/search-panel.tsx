@@ -1,12 +1,9 @@
-import { Users } from '@/types'
+import { Project, TParamProject, Users } from '@/types'
 import { Form, Input, Select } from 'antd'
 
 interface SearchPanelProps {
   users: Users[]
-  param: {
-    name: string
-    personId: string
-  }
+  param: TParamProject
   setParam: (param: SearchPanelProps['param']) => void
 }
 export const SearchPanel = (props: SearchPanelProps) => {
@@ -18,24 +15,24 @@ export const SearchPanel = (props: SearchPanelProps) => {
         <Input
           placeholder='项目名'
           type='text'
-          value={param.name}
-          onChange={event => setParam({ ...param, name: event.target.value })}
+          value={param.project_name}
+          onChange={event => setParam({ ...param, project_name: event.target.value })}
         ></Input>
       </Form.Item>
       <Form.Item>
         <Select
-          value={param.personId}
+          value={param.creator_id}
           onChange={value => {
             setParam({
               ...param,
-              personId: value
+              creator_id: value
             })
           }}
         >
           <option>负责人</option>
           {users.map(user => (
             <option key={user.id} value={user.id}>
-              {user.name}
+              {user.username}
             </option>
           ))}
         </Select>

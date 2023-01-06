@@ -11,7 +11,7 @@ export const handleUserResponse = ({ user }: { user?: Users }) => {
   window.localStorage.setItem(localStorageTokenKey, user?.token || '')
   window.localStorage.setItem(
     localStorageUserKey,
-    JSON.stringify({ id: user?.id, username: user?.name })
+    JSON.stringify({ id: user?.id, username: user?.username })
   )
   return user || null
 }

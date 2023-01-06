@@ -79,7 +79,7 @@ export const PageHeader: React.FC<PageHeaderProps> = () => {
   const handleProjectDropDownListClick: MenuProps['onClick'] = ({ key }) => {
     switch (key) {
       case ProjectDropItem.VIEWALLITEMS:
-        alert('跳转到project页面')
+        navigate('/projects')
         break
       case ProjectDropItem.CREATEPROJECT:
         openCreateProjectModal()
