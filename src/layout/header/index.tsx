@@ -13,7 +13,7 @@ import { Row } from '../../components/lib'
 
 import { EEventCraeteTask } from './const'
 import { useEventBus } from '@/hooks'
-import { ProjectCreated } from '@/page/project/project-create-modal/const'
+import { ProjectOptionEnum } from '@/page/project/project-create-modal/const'
 import { useNavigate } from 'react-router'
 import { resetRoute } from '@/utils'
 
@@ -58,7 +58,9 @@ interface PageHeaderProps {
 export const PageHeader: React.FC<PageHeaderProps> = () => {
   const navigate = useNavigate()
   const { loginout } = userAuth()
-  const { trigger: openCreateProjectModal } = useEventBus(ProjectCreated.OPEN_CRATE_PROJECT_MODAL)
+  const { trigger: openCreateProjectModal } = useEventBus(
+    ProjectOptionEnum.OPEN_CRATE_PROJECT_MODAL
+  )
   const [taskItems, setList] = React.useState(initTaskList)
   const handleTaskTabChange = React.useCallback((key: string) => {
     if (key === TaskTapItem.ASSIGNEDTOME) {

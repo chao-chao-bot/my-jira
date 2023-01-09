@@ -3,7 +3,7 @@ import { Modal, Form, Input, Select } from 'antd'
 
 import { Project } from '@/types'
 
-import { ProjectCreated } from './const'
+import { ProjectOptionEnum } from './const'
 import { useDialog } from '@/hooks/useDialog'
 import { userAuth } from '@/hooks/useAuth'
 import { fetchCreateProject } from '@/api/projects'
@@ -28,12 +28,13 @@ export const ProjectCreateModal: React.FC = () => {
   }
 
   const handleOpen = () => {
+    //TODO:完善项目创建form
     form.resetFields()
     form.setFieldValue('creator_id', user?.id)
     form.setFieldValue('member', [68065])
   }
 
-  const { dialogProps, dialogClose } = useDialog(ProjectCreated.OPEN_CRATE_PROJECT_MODAL, {
+  const { dialogProps, dialogClose } = useDialog(ProjectOptionEnum.OPEN_CRATE_PROJECT_MODAL, {
     onOpen: handleOpen
   })
   return (

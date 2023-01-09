@@ -1,6 +1,6 @@
 import CustomPopover from '@/components/header/custom-popover'
 import { useEventBus } from '@/hooks'
-import { ProjectCreated } from '@/page/project/project-create-modal/const'
+import { ProjectOptionEnum } from '@/page/project/project-create-modal/const'
 import { Button } from 'antd'
 import * as React from 'react'
 

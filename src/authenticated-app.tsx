@@ -6,6 +6,7 @@ import PageHeader from './layout/header'
 import { RouteSet } from '@/router'
 import { TaskCreateModal } from './page/task/task-crated-modal'
 import { ProjectCreateModal } from './page/project/project-create-modal'
+import { ProjectDeleteModal } from './page/project/project-delete-modal'
 
 export const AuthenticatedApp: React.FC = () => {
   useDocumentTitle('项目列表', false)
