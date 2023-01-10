@@ -1,6 +1,6 @@
 import { useRoutes, Navigate } from 'react-router'
 import { Test } from './components/test'
-import ProjectListScreen from './page/project/project-list'
+import ProjectListScreen from './page/project'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { People } from './page/people'
 import { WorkPage } from './page'

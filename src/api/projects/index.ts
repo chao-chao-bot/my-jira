@@ -4,7 +4,10 @@ import request from '../request'
 /**获取项目列表 */
 export const fetchProjectList = async (data: TParamProject) => {
   const res = await request.get<Project[]>('/projects', data)
-  return res || []
+  const addKeyRes = res?.map(item => {
+    return { ...item, key: item.id }
+  })
+  return addKeyRes || []
 }
 
 export const fetchUserList = async (data?: any) => {
@@ -16,4 +19,10 @@ export const fetchUserList = async (data?: any) => {
 export const fetchCreateProject = async (data: any) => {
   const res = await request.post<Project[]>('/project/create', data)
   return res || []
+}
+/**删除项目 */
+export const fetchDeleteProject = async (data: any) => {
+  const res = await request.post<string>('/project/delete', data)
+
+  return res
 }

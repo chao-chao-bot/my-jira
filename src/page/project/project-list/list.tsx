@@ -1,6 +1,7 @@
 import { Project, Users } from '@/types'
+import { useProject } from '@/utils/project'
 import { ExclamationCircleOutlined, MoreOutlined } from '@ant-design/icons'
-import { Dropdown, MenuProps, Modal, Space, Table } from 'antd'
+import { Dropdown, Modal, Table } from 'antd'
 import { ColumnsType, TableProps } from 'antd/lib/table'
 import { Link } from 'react-router-dom'
 import { ProjectOption, ProjectOptionList } from './const'
@@ -8,36 +9,37 @@ import { ProjectOption, ProjectOptionList } from './const'
 interface ListProps extends TableProps<Project> {
   users: Users[]
 }
-interface DataType {
-  [key: string]: unknown
-}
+
+type TDeleteProjectParam = Pick<Project, 'project_name' | 'id'>
+
 export const List = (props: ListProps) => {
   const { users, ...resetProps } = props
-  const handleProjectDeleteOk = () => {
+  const handleProjectDelete = (id: number) => () => {
     //发送删除的请求
-    console.log('删除')
+    console.log('删除', id)
+    useProject()
   }
-  const confirm = (name: string) => {
+  const confirm = (param: TDeleteProjectParam) => {
+    const { project_name, id } = param
     Modal.confirm({
-      title: <b>是否删除</b>,
+      title: <b>删除</b>,
       icon: <ExclamationCircleOutlined />,
       content: (
         <div>
-          确定要删除 <b>{name}</b> 项目吗？删除后不可恢复。
+          确定要删除 <b>{project_name}</b> 项目吗？删除后不可恢复。
         </div>
       ),
       okText: '确认',
       cancelText: '取消',
-      onOk: handleProjectDeleteOk
+      onOk: handleProjectDelete(id)
     })
   }
   const onClick =
-    (name: string) =>
+    (param: TDeleteProjectParam) =>
     ({ key }: { key: string }) => {
-      console.log(key)
       switch (key) {
         case ProjectOption.ProjectDelete:
-          confirm(name)
+          confirm(param)
           break
         case ProjectOption.ProjectSetting:
           break
@@ -69,9 +71,9 @@ export const List = (props: ListProps) => {
       dataIndex: 'operation',
       key: 'operation',
       render: (_, project) => {
-        const { project_name } = project
+        const { project_name, id } = project
         return (
-          <Dropdown menu={{ items: ProjectOptionList, onClick: onClick(project_name) }}>
+          <Dropdown menu={{ items: ProjectOptionList, onClick: onClick({ project_name, id }) }}>
             <MoreOutlined />
           </Dropdown>
         )

@@ -7,7 +7,6 @@ import { URLSearchParamsInit, useSearchParams } from 'react-router-dom'
 
 export const useUrlQueryParam = <K extends string>(keys: K[]) => {
   const [searchParams, setSearchParams] = useSearchParams()
-
   const keyMap = React.useMemo(
     () =>
       keys.reduce((prev, key) => {

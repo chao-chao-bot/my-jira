@@ -17,10 +17,6 @@ export const initTeamDropList = [
     label: '您的协作者',
     children: [
       {
-        key: '1-1',
-        label: '1st menu item'
-      },
-      {
         key: TeamDropItemKey.INIVTEMEMBERS,
         label: '邀请团队成员'
       },
@@ -37,11 +33,11 @@ export const initTeamDropList = [
     children: [
       {
         key: '1-1',
-        label: '1st menu item'
+        label: 'xxx团队123'
       },
       {
         key: '1-2',
-        label: '2nd menu item'
+        label: 'xxx团队321'
       }
     ]
   }

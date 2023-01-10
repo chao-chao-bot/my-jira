@@ -1,6 +1,6 @@
 export * from './auth'
 export type Users = {
-  id: string
+  id: number
   username: string
   email: string
   token?: string

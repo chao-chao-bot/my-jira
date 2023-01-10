@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Modal, Form, Input, Select } from 'antd'
+import { Modal, Form, Input, Select, Cascader } from 'antd'
 
 import { Project } from '@/types'
 
@@ -7,6 +7,12 @@ import { ProjectOptionEnum } from './const'
 import { useDialog } from '@/hooks/useDialog'
 import { userAuth } from '@/hooks/useAuth'
 import { fetchCreateProject } from '@/api/projects'
+import { useProject } from '@/utils/project'
+interface Option {
+  value: string | number
+  label: string
+  children?: Option[]
+}
 
 export const ProjectCreateModal: React.FC = () => {
   const { user } = userAuth()
@@ -37,6 +43,38 @@ export const ProjectCreateModal: React.FC = () => {
   const { dialogProps, dialogClose } = useDialog(ProjectOptionEnum.OPEN_CRATE_PROJECT_MODAL, {
     onOpen: handleOpen
   })
+
+  const onChange = (value: any, op: any) => {
+    console.dir(value, op)
+  }
+
+  const options: Option[] = [
+    {
+      label: '团队1',
+      value: 'light',
+      children: new Array(3)
+        .fill(null)
+        .map((_, index) => ({ label: `Number ${index}`, value: index }))
+    },
+    {
+      label: '团队2',
+      value: 'bamboo',
+      children: [
+        {
+          label: 'Toy Fish',
+          value: 'fish'
+        },
+        {
+          label: 'Toy Cards',
+          value: 'cards'
+        },
+        {
+          label: 'Toy Bird',
+          value: 'bird'
+        }
+      ]
+    }
+  ]
   return (
     <Modal title='创建项目' onOk={handleOk} {...dialogProps}>
       <Form layout='vertical' form={form}>
@@ -55,13 +93,8 @@ export const ProjectCreateModal: React.FC = () => {
           <Input />
         </Form.Item>
 
-        <Form.Item name='member' label='邀请成员'>
+        <Form.Item label='负责人'>
           <Select
-            showSearch
-            showArrow={false}
-            mode='multiple'
-            allowClear
-            style={{ width: '100%' }}
             options={[
               {
                 value: 'jack',

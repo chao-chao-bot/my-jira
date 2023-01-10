@@ -1,5 +1,6 @@
-import { Project, TParamProject, Users } from '@/types'
-import { Form, Input, Select } from 'antd'
+import { UserSelect } from '@/components/user-select'
+import { TParamProject, Users } from '@/types'
+import { Form, Input } from 'antd'
 
 interface SearchPanelProps {
   users: Users[]
@@ -7,8 +8,11 @@ interface SearchPanelProps {
   setParam: (param: SearchPanelProps['param']) => void
 }
 export const SearchPanel = (props: SearchPanelProps) => {
-  const { param, setParam, users } = props
-
+  const { param, setParam } = props
+  const handleChange = (value: number | undefined) => {
+    console.log(value)
+    setParam({ ...param, creator_id: value })
+  }
   return (
     <Form layout='inline' style={{ marginBottom: '2rem' }}>
       <Form.Item>
@@ -20,22 +24,7 @@ export const SearchPanel = (props: SearchPanelProps) => {
         ></Input>
       </Form.Item>
       <Form.Item>
-        <Select
-          value={param.creator_id}
-          onChange={value => {
-            setParam({
-              ...param,
-              creator_id: value
-            })
-          }}
-        >
-          <option>负责人</option>
-          {users.map(user => (
-            <option key={user.id} value={user.id}>
-              {user.username}
-            </option>
-          ))}
-        </Select>
+        <UserSelect defaultOptionName='负责人' value={param.creator_id} onChange={handleChange} />
       </Form.Item>
     </Form>
   )

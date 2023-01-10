@@ -1,9 +1,10 @@
 /*项目类型 */
 export type Project = {
-  creator_id: string
+  id: number
+  creator_id: number
   project_name: string
   project_prefix: string
   member?: string
 }
 
-export type TParamProject = Partial<Project>
+export type TParamProject = Partial<Pick<Project, 'project_name' | 'creator_id'>>

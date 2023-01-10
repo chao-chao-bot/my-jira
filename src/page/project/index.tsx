@@ -1,17 +1,18 @@
 import * as React from 'react'
-import List from './list'
-import { SearchPanel } from './search-panel'
-import { useDebounce } from '@/hooks'
+import List from './project-list/list'
+import { SearchPanel } from './project-list/search-panel'
+import { useDebounce, useDocumentTitle } from '@/hooks'
 import styled from '@emotion/styled'
 import { useProject } from '@/utils/project'
 import { useUser } from '@/utils/users'
-import { useUrlQueryParam } from '@/hooks/useUrlQueryParam'
+import { useProjeSearchParams } from './project-list/util'
 
 export const ProjectListScreen: React.FC = () => {
-  const [param, setParam] = useUrlQueryParam(['project_name'])
-  const deParams = useDebounce(param, 200)
+  useDocumentTitle('项目列表', false)
+
+  const [param, setParam] = useProjeSearchParams()
   const { data: users } = useUser()
-  const { data: list, isLoading } = useProject(deParams)
+  const { data: list, isLoading } = useProject(useDebounce(param, 200))
 
   return (
     <Container>
@@ -23,7 +24,7 @@ export const ProjectListScreen: React.FC = () => {
 }
 export default ProjectListScreen
 
-ProjectListScreen.whyDidYouRender = true
+ProjectListScreen.whyDidYouRender = false
 const Container = styled.div`
   flex: 1;
 `
